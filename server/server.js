@@ -33,7 +33,7 @@ const ai = new GoogleGenAI({ apiKey: apiKey });
 const model = 'gemini-2.5-flash-image';
 
 // Configuración de generación
-const generationConfig = {
+/*const generationConfig = {
     maxOutputTokens: 32768,
     temperature: 1,
     topP: 0.95,
@@ -44,7 +44,33 @@ const generationConfig = {
         { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'OFF' },
         { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'OFF' },
     ],
+};*/
+
+const generationConfig = {
+  maxOutputTokens: 10000,
+  temperature: 1,
+  topP: 0.95,
+  responseModalities: ["TEXT", "IMAGE"],
+  safetySettings: [
+    {
+      category: 'HARM_CATEGORY_HATE_SPEECH',
+      threshold: 'BLOCK_LOW_AND_ABOVE',
+    },
+    {
+      category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+      threshold: 'BLOCK_LOW_AND_ABOVE',
+    },
+    {
+      category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+      threshold: 'BLOCK_LOW_AND_ABOVE',
+    },
+    {
+      category: 'HARM_CATEGORY_HARASSMENT',
+      threshold: 'BLOCK_LOW_AND_ABOVE',
+    }
+  ],
 };
+
 
 // --- Definición del Endpoint de la API ---
 

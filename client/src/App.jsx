@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from 'react';
+import Header from "./header";
+import Footer from "./footer";
 
 // --- Helper Functions ---
 // Función para convertir una URL de imagen local a un objeto File
@@ -31,10 +33,8 @@ const ProductCard = ({ product, onSelect }) => (
     </div>
 );
 const Spinner = () => (
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" aria-label="Cargando"></div>
 );
-
-
 
 // Main Application Component
 export default function App() {
@@ -45,13 +45,14 @@ export default function App() {
     const [error, setError] = useState(null);
 
     const catalog = [
-        { id: 1, name: 'T-shirt "Cosmic Dream"', price: 29.99, imageUrl: '/src/assets/images/01.jpeg' },
-        { id: 2, name: 'T-shirt "Retro Wave"', price: 25.00, imageUrl: '/src/assets/images/02.jpg' },
-        { id: 3, name: 'T-shirt "Urban Jungle"', price: 32.50, imageUrl: '/src/assets/images/03.jpeg' },
-        { id: 4, name: 'T-shirt "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/04.jpeg' },
-        { id: 5, name: 'T-shirt "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/04.jpeg' },
-        { id: 6, name: 'T-shirt "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/04.jpeg' },
-        { id: 7, name: 'T-shirt "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/04.jpeg' },
+        { id: 1, name: 'Playera "Cosmic Dream"', price: 29.99, imageUrl: '/src/assets/images/01.jpeg' },
+        { id: 2, name: 'Playera "Retro Wave"', price: 25.00, imageUrl: '/src/assets/images/02.jpg' },
+        { id: 3, name: 'Playera "Urban Jungle"', price: 32.50, imageUrl: '/src/assets/images/03.jpeg' },
+        { id: 4, name: 'Playera "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/04.jpeg' },
+        { id: 5, name: 'Playera "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/05.png' },
+        { id: 6, name: 'Playera "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/06.png' },
+        { id: 7, name: 'Playera "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/07.png' },
+        { id: 7, name: 'Playera "Minimalist"', price: 22.00, imageUrl: '/src/assets/images/08.png' },
     ];
     
     // --- Event Handlers ---
@@ -139,24 +140,27 @@ export default function App() {
     if (!selectedProduct) {
         return (
             <div className="bg-gray-100 min-h-screen font-sans p-4 sm:p-8">
+                <Header />
                 <header className="text-center mb-10">
-                    <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800">CATALOGO</h1>
-                    <p className="text-lg text-gray-600 mt-2">Selecciona una playera de nuestro catalogo.</p>
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800">CATÁLOGO</h1>
+                    <p className="text-lg text-gray-600 mt-2">Selecciona una playera de nuestro catálogo.</p>
                 </header>
                 <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     {catalog.map(product => (
                         <ProductCard key={product.id} product={product} onSelect={setSelectedProduct} />
                     ))}
                 </main>
+                <Footer />
             </div>
         );
     }
-    
+
     return (
         <div className="bg-gray-50 min-h-screen font-sans p-4 sm:p-8">
+            <Header />
             <div className="max-w-6xl mx-auto">
                 <button onClick={handleBackToCatalog} className="mb-8 text-indigo-600 hover:text-indigo-800 font-semibold transition-colors">
-                    &larr; Regresar al catalogo
+                    &larr; Regresar al catálogo
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
                     {/* Product Info */}
@@ -167,9 +171,9 @@ export default function App() {
                     </div>
                     {/* Try-On Section */}
                     <div className="bg-white p-6 rounded-2xl shadow-md">
-                        <h3 className="text-2xl font-bold text-gray-900 mb-4">¡Pruébalo!</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-4">¡Pruébatela!</h3>
                         <div className="mb-4">
-                            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700 mb-2">1. Sube una foto de ti mismo</label>
+                            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700 mb-2">1. Sube una foto tuya</label>
                             <input id="image-upload" type="file" accept="image/*" onChange={handleImageUpload} className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" />
                         </div>
                         {userImageFile && (
@@ -179,15 +183,16 @@ export default function App() {
                             </div>
                         )}
                         <button onClick={generateTryOnImage} disabled={!userImageFile || isLoading} className="w-full mt-4 bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center text-lg">
-                            {isLoading ? 'Generating...' : '2. Generate Virtual Try-On'}
+                            {isLoading ? 'Generando...' : '2. Generar prueba virtual'}
                         </button>
                         {error && <p className="text-red-600 mt-4 text-center">{error}</p>}
                         <div className="mt-6 w-full h-96 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed">
-                            {isLoading ? <Spinner /> : generatedImage ? <img src={generatedImage} alt="Virtual try-on result" className="rounded-xl object-contain max-w-full max-h-full" /> : <p className="text-gray-500 text-center p-4">Your result will appear here</p>}
+                            {isLoading ? <Spinner /> : generatedImage ? <img src={generatedImage} alt="Resultado de la prueba virtual" className="rounded-xl object-contain max-w-full max-h-full" /> : <p className="text-gray-500 text-center p-4">Tu resultado aparecerá aquí</p>}
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
